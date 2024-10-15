@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{%block testpagetitle %}
+博客-用户管理
+{%endblock%}
+
+{%block testcontent%}
+<h1>用户信息管理</h1>
+<table class="table" style="border: 1px solid black;padding:10px;">
+    <tr>
+        <th>用户编号</th>
+        <th>用户名</th>
+        <th>密码</th>
+        <th>真实姓名</th>
+        <th>性别</th>
+        <th>年龄</th>
+        <th>#</th>
+    </tr>
+    {%for user in myusers2%}
+    <tr>
+        <td>{{user.userID}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.password}}</td>
+        <td>{{user.truename}}</td>
+        <td>{{user.sex}}</td>
+        <td>{{user.age}}</td>
+        <td><a href="/userlist/edit/?userid={{user.userID}}">编辑</a> <a href="/userlist/del/{{user.userID}}/">删除</a></td>
+    </tr>
+    {%endfor%}
+</table>
+<div class="pagetoolbar">
+    <a href="/userlist/1/?pagesize={{mypage.pagesize}}">首页</a>
+    <a href="/userlist/{{mypage.last}}/?pagesize={{mypage.pagesize}}">尾页</a>
+    <a href="/userlist/{{mypage.prev}}/?pagesize={{mypage.pagesize}}">上一页</a>
+    <a href="/userlist/{{mypage.next}}/?pagesize={{mypage.pagesize}}">下一页</a>
+    <form action="/userlist/1/">
+        每页：<input type="text" name="pagesize" value="3">条
+        <input type="submit" value="确定">
+    </form>
+</div>
+{%endblock%}

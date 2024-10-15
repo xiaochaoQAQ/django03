@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load testfilter %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客网站首页</title>
+
+</head>
+<body>
+{# 注释 #}
+<img src="{% static 'img/backgroundimage.jpg' %}" alt="" style="width: 100%;height: 100%;">
+<h1>你好 django</h1>
+<a href="http://www.bilibili.com" target="_blank">哔哩哔哩</a>
+<a href="http://127.0.0.1:8000/admin/" target="_blank">后台</a>
+<p>博客网站名称：{{blog_name|default:"尚未配置博客网站名称"}}</p>
+<p>最佳文章：{{articleList.0.title | join:","}}</p>
+<p>最佳文章：{{articleList.0.title | truncatechars:"10"}}</p>
+<p>最佳文章：{{articleList.0.title | add:articleList.1.title}}</p>
+<p>最佳文章：{{articleList | add:L}}</p>
+<p>最佳文章：{{L.0 | add:"2222"}}</p>
+<p>最佳文章：{{articleList.0.title | myFilterSensitiveWords:"****"}}</p>
+<p>博客文章列表：</p>
+<ul>
+    {%for article in articleList%}
+    {%if article.author == "唐超"%}
+    <li>{{article.title}} 作者：{{article.author}} 日期：{{article.date | date:"Y年m月d日 h时i分s秒"}}</li>
+    {%elif article.author == "李四"%}
+    <li>{{article.title | title}} 作者：{{article.author}} 日期：{{article.date | date:"Y年m月d日 h时i分s秒"}}</li>
+    {%else%}
+    <li style="color: red">都不存在</li>
+    {%endif%}
+    {%empty%}
+    <li>暂时没有文章</li>
+    {%endfor%}
+</ul>
+<video width="270" height="540" controls>
+    <source src="{% static 'other/2.mp4' %}" type="video/mp4">
+    您的浏览器不支持 video 标签。
+</video>
+<ul>
+    {%for article in articleList%}
+    <li> {{forloop.counter}}、 {{article.title}} 作者：{{article.author}} 日期：{{article.date | date:"Y年m月d日
+        h时i分s秒"}}
+    </li>
+    {% if forloop.last %}
+    <li>这是最后一篇文章</li>
+    {%endif%}
+    {%empty%}
+    <li>暂时没有文章</li>
+    {%endfor%}
+</ul>
+{% with articleList.0.title as haowz %}
+最佳文章：{{haowz}}
+{% endwith %}
+<br/>
+{% with haowz=articleList.0.title %}
+最佳文章：{{haowz}}
+{% endwith %}
+
+</body>
+</html>
